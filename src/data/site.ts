@@ -71,7 +71,7 @@ export const services: Service[] = [
   },
   {
     id: 'novostavby',
-    title: 'Novostavby od pozemku po interiér',
+    title: 'Novostavby od pozemku po interiér',
     forWhom: 'Pro stavebníky rodinných domů, investory řadové zástavby a komerčních budov.',
     text: 'Postavíme rodinný dům, řadové domy i komerční objekt podle vašeho projektu. Začínáme úpravou stavebního pozemku a končíme řemeslnými pracemi v interiéru. Když je potřeba, upravíme i zahradu a okolí stavby.',
     includes: [

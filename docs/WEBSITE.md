@@ -77,6 +77,8 @@ There is deliberately **no default recipient**, so the preview never mails the c
   backgrounds (contrast); on light, green text uses `#3b6810` (AA).
 - **Services as the strongest part**, built from /cinnost/ + the homepage + their list of trades. Rows
   rather than identical cards, so each service can say who it is for and what is included.
+- **Before/after side by side, not a comparison slider:** the two Makovského photos are taken from different
+  angles (checker note C4), so a drag slider would show two misaligned buildings. Revisit with an aligned pair.
 - **Before/after from their own gallery** instead of claims: the Makovského "before" photo is the gallery's
   unnumbered first file showing the grey panel facade; the "after" files show the finished facade.
 - **Hero photo** `makovskeho-po-2`: a finished, colourful facade of a large building fits the lead's advice
@@ -121,4 +123,9 @@ All texts are rewritten from their site; these parts are new wording or new stru
 
 ## Verify
 `npm run build`, `npm run check:format`, then serve (`PORT=4431 HOST=127.0.0.1 node dist/server/entry.mjs`) and run
-the verify-loop capture (`review/round-N/`, git-ignored). Round 1 machine facts: no issues at 1440 and 390.
+the verify-loop capture (`review/round-N/`, git-ignored).
+
+Verify loop (Agent Dash, 3 rounds max): **round 1 PASS** (0 block, 0 fix, 6 notes; see `review/SUMMARY.md`
+locally and the notes in "Open" above). After the loop: nbsp in "Novostavby od pozemku" (note C3), checked by
+build + a re-capture with the newer probe (`brokenAfterClick` included): no machine issues at 1440 and 390.
+Project-specific checks: `docs/CHECKLIST.md`.
