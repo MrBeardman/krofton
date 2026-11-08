@@ -5,6 +5,9 @@ Pitch demo for KROFTON s.r.o. (stavební firma, Praha 5 – Smíchov), lead from
 to sell the idea of the new site on its own. Language: Czech only.
 
 - Repo: https://github.com/MrBeardman/krofton (branch `main`)
+- **Live preview:** https://wheat-cattle-954277.hostingersite.com/ (Hostinger Cloud, order 1010081246, user
+  u681749339; Node.js 22, Astro, build `npm run build`, output `dist`, entry `server/entry.mjs`; Git
+  auto-deploy from `main`, so every push redeploys). Target recorded in `.hostinger/site.json`.
 - Stack: Astro 7, static page + one Node endpoint (`/api/contact`), `@astrojs/node` standalone
 - Scrape (local only, not in the repo): `C:\Data\Dev\krofton-scrape\` (HTML, `projects.json`, original photos, theme CSS, logo)
 
