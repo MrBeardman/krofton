@@ -1,5 +1,5 @@
 ---
-import { company, services } from '../data/site';
+import { company, services, nb } from '../data/site';
 const year = new Date().getFullYear();
 ---
 
@@ -40,7 +40,7 @@ const year = new Date().getFullYear();
       <ul>
         <li>IČO {company.ico}</li>
         <li>DIČ {company.dic}</li>
-        <li>{company.register}</li>
+        <li>{nb(company.register)}</li>
       </ul>
     </div>
   </div>

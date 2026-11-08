@@ -198,7 +198,7 @@ p {
 }
 .js [data-reveal].is-in {
   opacity: 1;
-  translate: 0 0;
+  translate: none;
 }
 
 /* SVG line drawings: every [data-draw] path draws in on reveal of its .is-in ancestor */

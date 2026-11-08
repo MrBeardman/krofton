@@ -87,6 +87,20 @@ import { faq, nb } from '../../data/site';
   .kr-faq__item[open] .kr-faq__icon::after {
     transform: rotate(0deg);
   }
+  .kr-faq__item summary h3 {
+    transition: color 140ms ease;
+  }
+  .kr-faq__item[open] summary h3 {
+    color: var(--zelen-ink);
+  }
+  .kr-faq__item[open] p {
+    animation: kr-faq-in 180ms var(--ease-out);
+  }
+  @keyframes kr-faq-in {
+    from {
+      opacity: 0;
+    }
+  }
   .kr-faq__item p {
     padding: 0 56px 22px 0;
     color: var(--ink-2);
