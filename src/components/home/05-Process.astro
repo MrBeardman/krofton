@@ -1,0 +1,82 @@
+---
+import { steps, nb } from '../../data/site';
+---
+
+<section class="kr-process kr-light" id="jak-pracujeme" aria-labelledby="kr-process-h">
+  <div class="kr-wrap">
+    <h2 id="kr-process-h" data-reveal>
+      Jak zakázka probíhá
+    </h2>
+    <ol class="kr-steps">
+      {steps.map((s, i) => (
+        <li class="kr-step" data-reveal style={`--d:${i + 1}`}>
+          <span class="kr-step__n" aria-hidden="true">
+            {i + 1}
+          </span>
+          <h3>{nb(s.title)}</h3>
+          <p>{nb(s.text)}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style is:global>
+  .kr-process {
+    background: var(--bila);
+    padding: var(--section) 0;
+    border-top: 1px solid var(--line);
+  }
+  .kr-steps {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 32px 28px;
+    margin-top: clamp(36px, 5vw, 56px);
+  }
+  /* one ledger line through the step numbers, like a scaffold board */
+  .kr-steps::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 22px;
+    height: 2px;
+    background: var(--line);
+  }
+  .kr-step {
+    position: relative;
+  }
+  .kr-step__n {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 4px;
+    background: var(--les);
+    color: var(--signal);
+    font: 700 1.5rem/1 var(--font-cond);
+  }
+  .kr-step h3 {
+    margin-top: 20px;
+  }
+  .kr-step p {
+    margin-top: 8px;
+    color: var(--ink-2);
+  }
+
+  @media (max-width: 999px) {
+    .kr-steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .kr-steps::before {
+      display: none;
+    }
+  }
+  @media (max-width: 640px) {
+    .kr-steps {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

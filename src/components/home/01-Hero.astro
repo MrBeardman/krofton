@@ -1,0 +1,171 @@
+---
+import Photo from '../Photo.astro';
+import Icon from '../Icon.astro';
+import { company, nb } from '../../data/site';
+---
+
+<section class="kr-hero" aria-labelledby="kr-hero-h">
+  <div class="kr-wrap kr-hero__grid">
+    <div class="kr-hero__text">
+      <h1 id="kr-hero-h" data-reveal>
+        {nb('Stavební firma pro fasády, rekonstrukce a novostavby v Praze')}
+      </h1>
+      <p class="kr-lead" data-reveal style="--d:2">
+        {nb(
+          'KROFTON s.r.o. ze Smíchova staví od základů po dokončovací práce. Zateplíme bytový dům, zrekonstruujeme školu nebo rodinný dům a na vaši stavbu dodáme zkušené řemeslníky.',
+        )}
+      </p>
+      <div class="kr-hero__cta" data-reveal style="--d:4">
+        <a class="kr-btn kr-btn--signal" href={company.phoneHref}>
+          <Icon name="phone" />
+          Zavolat {company.phone.replace(/ /g, ' ')}
+        </a>
+        <a class="kr-btn kr-btn--ghost" href="#poptavka">
+          Poslat poptávku
+        </a>
+      </div>
+      <p class="kr-hero__where" data-reveal style="--d:5">
+        <Icon name="pin" />
+        <span>
+          {company.street}, {company.city}&nbsp;5 – {company.district}
+        </span>
+      </p>
+    </div>
+
+    <figure class="kr-hero__media" data-art>
+      <div class="kr-hero__photo">
+        <Photo
+          name="makovskeho-po-2"
+          alt="Panelový dům v ulici Makovského v Praze po zateplení, s novou fasádou v cihlové, žluté a bílé barvě"
+          sizes="(min-width: 1000px) 52vw, 100vw"
+          eager
+        />
+      </div>
+      {/* Scaffold lines (lešení): standards, ledgers and couplers drawn around the photo */}
+      <svg class="kr-hero__scaffold" viewBox="0 0 600 450" preserveAspectRatio="none" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke">
+          <path data-draw pathLength="1" style="--i:0" d="M-30 112H630" />
+          <path data-draw pathLength="1" style="--i:1" d="M-30 338H630" />
+          <path data-draw pathLength="1" style="--i:2" d="M-14 -30V480" />
+          <path data-draw pathLength="1" style="--i:3" d="M614 -30V480" />
+        </g>
+      </svg>
+      <span class="kr-hero__coupler" data-pop style="--i:4; left: -2.33%; top: 24.9%"></span>
+      <span class="kr-hero__coupler" data-pop style="--i:4; left: 102.33%; top: 24.9%"></span>
+      <span class="kr-hero__coupler" data-pop style="--i:5; left: -2.33%; top: 75.1%"></span>
+      <span class="kr-hero__coupler" data-pop style="--i:5; left: 102.33%; top: 75.1%"></span>
+      <figcaption data-pop style="--i:6">
+        Zateplení fasády, ul. Makovského, Praha
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<style is:global>
+  .kr-hero {
+    background: linear-gradient(180deg, var(--les) 0%, var(--les) 70%, #2c4c0d 100%);
+    color: var(--bila);
+    padding: clamp(40px, 6vw, 88px) 0 clamp(64px, 8vw, 112px);
+    overflow: clip;
+  }
+  .kr-hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(40px, 6vw, 96px);
+    align-items: center;
+  }
+  .kr-hero h1 {
+    font-size: clamp(2.75rem, 1.6rem + 4.4vw, 5rem);
+    line-height: 0.98;
+    letter-spacing: -0.015em;
+    max-width: 11em;
+  }
+  .kr-hero .kr-lead {
+    margin-top: 24px;
+    color: #dfe9d6;
+  }
+  .kr-hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 36px;
+  }
+  .kr-hero__where {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 28px;
+    color: var(--mech);
+    font-size: 0.9375rem;
+  }
+  .kr-hero__where svg {
+    width: 18px;
+    height: 18px;
+    flex: none;
+  }
+
+  .kr-hero__media {
+    position: relative;
+    color: var(--signal);
+    margin: 20px 18px 0;
+  }
+  .kr-hero__photo {
+    aspect-ratio: 4 / 3;
+    background: var(--les-2);
+  }
+  .kr-hero__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .js .kr-hero__photo img {
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 1200ms var(--ease-in-out) 100ms;
+  }
+  .js .kr-hero__media.is-in .kr-hero__photo img {
+    clip-path: inset(0 0 0 0);
+  }
+  .kr-hero__scaffold {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+    opacity: 0.85;
+  }
+  .kr-hero__coupler {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    margin: -4.5px 0 0 -4.5px;
+    background: var(--signal);
+    border-radius: 1px;
+  }
+  .kr-hero__media figcaption {
+    margin-top: 40px;
+    color: var(--mech);
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 999px) {
+    .kr-hero__grid {
+      grid-template-columns: 1fr;
+    }
+    .kr-hero__media {
+      margin: 8px 16px 0;
+    }
+  }
+  @media (max-width: 560px) {
+    .kr-hero__cta .kr-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js .kr-hero__photo img {
+      clip-path: none;
+      transition: none;
+    }
+  }
+</style>

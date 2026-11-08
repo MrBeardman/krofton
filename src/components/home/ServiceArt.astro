@@ -1,0 +1,120 @@
+---
+/**
+ * Line drawings for the six services (120×120, brand colours on dark green). Paths with [data-draw] draw in
+ * stroke by stroke when the row reveals (site.css), then one small part loops slowly (.kr-art__loop),
+ * paused off screen and switched off under prefers-reduced-motion.
+ */
+import type { ServiceId } from '../../data/site';
+interface Props {
+  id: ServiceId;
+}
+const { id } = Astro.props;
+---
+
+<svg class={`kr-art kr-art--${id}`} viewBox="0 0 120 120" aria-hidden="true" data-loop>
+  <g fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    {id === 'fasady' && (
+      <>
+        {/* masonry, insulation board, render, trowel */}
+        <path class="kr-m" data-draw pathLength="1" style="--i:0" d="M18 14H42V106H18Z" />
+        <path
+          class="kr-m"
+          data-draw
+          pathLength="1"
+          style="--i:1"
+          d="M18 37H42M18 60H42M18 83H42M30 14V37M24 37V60M36 37V60M30 60V83M24 83V106M36 83V106"
+        />
+        <path class="kr-m" data-draw pathLength="1" style="--i:2" d="M47 14H63V106H47Z" />
+        <path class="kr-m" data-draw pathLength="1" style="--i:3" d="M52 38H58M52 82H58" />
+        <path class="kr-s" data-draw pathLength="1" style="--i:4" d="M68 14V106" />
+        <g class="kr-art__loop kr-art__trowel" data-pop style="--i:5">
+          <path class="kr-s" d="M73 50H91V66H73Z" />
+          <path class="kr-m" d="M91 58H103M103 53V63" />
+        </g>
+      </>
+    )}
+    {id === 'rekonstrukce' && (
+      <>
+        {/* brick wall with one brick being put back */}
+        <path class="kr-m" data-draw pathLength="1" style="--i:0" d="M14 26H106V94H14Z" />
+        <path class="kr-m" data-draw pathLength="1" style="--i:1" d="M14 49H106M14 72H106" />
+        <path
+          class="kr-m"
+          data-draw
+          pathLength="1"
+          style="--i:2"
+          d="M37 26V49M60 26V49M83 26V49M25 49V72M48 49V72M72 49V72M95 49V72M37 72V94M60 72V94M83 72V94"
+        />
+        <g class="kr-art__loop kr-art__brick" data-pop style="--i:3">
+          <path class="kr-s" d="M51 52H69V69H51Z" />
+        </g>
+        <path class="kr-s" data-draw pathLength="1" style="--i:4" d="M14 104H106" />
+      </>
+    )}
+    {id === 'novostavby' && (
+      <>
+        {/* ground, house, tower crane with a swinging load */}
+        <path class="kr-m" data-draw pathLength="1" style="--i:0" d="M8 106H112" />
+        <path class="kr-m" data-draw pathLength="1" style="--i:1" d="M20 106V72L42 55L64 72V106" />
+        <path class="kr-m" data-draw pathLength="1" style="--i:2" d="M20 88H64M36 106V94H48V106" />
+        <path class="kr-m" data-draw pathLength="1" style="--i:3" d="M88 106V20M94 106V20" />
+        <path
+          class="kr-m"
+          data-draw
+          pathLength="1"
+          style="--i:4"
+          d="M88 32L94 42L88 52L94 62L88 72L94 82L88 92L94 102"
+        />
+        <path class="kr-s" data-draw pathLength="1" style="--i:5" d="M58 20H114M91 10L60 20M91 10L114 20" />
+        <g class="kr-art__loop kr-art__hook" data-pop style="--i:6">
+          <path class="kr-m" d="M70 20V40" />
+          <path class="kr-s" d="M60 40H80V46H60Z" />
+        </g>
+      </>
+    )}
+    {id === 'obklady' && (
+      <>
+        {/* tile grid; tiles get laid one by one */}
+        {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+          <rect
+            class="kr-art__loop kr-art__tile"
+            x={26 + (n % 3) * 24}
+            y={26 + Math.floor(n / 3) * 24}
+            width="20"
+            height="20"
+            style={`--n:${[0, 1, 3, 2, 4, 6, 5, 7, 8][n]}`}
+          />
+        ))}
+        <path class="kr-m" data-draw pathLength="1" style="--i:0" d="M24 24H96V96H24Z" />
+        <path class="kr-m" data-draw pathLength="1" style="--i:1" d="M48 24V96M72 24V96" />
+        <path class="kr-m" data-draw pathLength="1" style="--i:2" d="M24 48H96M24 72H96" />
+        <path class="kr-s" data-draw pathLength="1" style="--i:3" d="M14 106H106" />
+      </>
+    )}
+    {id === 'interiery' && (
+      <>
+        {/* wall, a painted band and a paint roller */}
+        <path class="kr-m" data-draw pathLength="1" style="--i:0" d="M14 14H84V106H14Z" />
+        <path class="kr-s kr-art__band" data-pop style="--i:1" d="M30 26H66V94H30Z" />
+        <g class="kr-art__loop kr-art__roller" data-pop style="--i:2">
+          <path class="kr-s" d="M26 52H70V64H26Z" />
+          <path class="kr-m" d="M70 58H92V84M92 84V108" />
+        </g>
+      </>
+    )}
+    {id === 'spoluprace' && (
+      <>
+        {/* plumb line and a spirit level whose bubble settles */}
+        <path class="kr-m" data-draw pathLength="1" style="--i:0" d="M60 8V34" />
+        <path class="kr-s" data-draw pathLength="1" style="--i:1" d="M55 34H65L60 44Z" />
+        <path class="kr-m" data-draw pathLength="1" style="--i:2" d="M12 56H108V76H12Z" />
+        <path class="kr-m" data-draw pathLength="1" style="--i:3" d="M46 60H74V72H46Z" />
+        <path class="kr-m" data-draw pathLength="1" style="--i:4" d="M55 60V72M65 60V72M22 76V84M98 76V84" />
+        <g class="kr-art__loop kr-art__bubble" data-pop style="--i:5">
+          <circle class="kr-s" cx="60" cy="66" r="3.2" />
+        </g>
+        <path class="kr-m" data-draw pathLength="1" style="--i:6" d="M12 98H108" />
+      </>
+    )}
+  </g>
+</svg>

@@ -1,0 +1,59 @@
+---
+import { reasons, nb } from '../../data/site';
+---
+
+<section class="kr-why kr-light" aria-labelledby="kr-why-h">
+  <div class="kr-wrap kr-why__grid">
+    <h2 id="kr-why-h" class="kr-why__h" data-reveal>
+      Proč stavět s KROFTON
+    </h2>
+    <ul class="kr-why__list">
+      {reasons.map((r, i) => (
+        <li data-reveal style={`--d:${(i % 3) + 1}`}>
+          <h3>{nb(r.title)}</h3>
+          <p>{nb(r.text)}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style is:global>
+  .kr-why {
+    padding: clamp(56px, 7vw, 96px) 0;
+  }
+  .kr-why__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: 32px clamp(40px, 6vw, 96px);
+  }
+  .kr-why__h {
+    font-size: clamp(2rem, 1.3rem + 2.4vw, 3rem);
+  }
+  .kr-why__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px 28px;
+  }
+  .kr-why__list h3 {
+    font-size: 1.375rem;
+    padding-top: 14px;
+    border-top: 3px solid var(--zelen);
+  }
+  .kr-why__list p {
+    margin-top: 8px;
+    color: var(--ink-2);
+    font-size: 0.9875rem;
+  }
+  @media (max-width: 999px) {
+    .kr-why__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 640px) {
+    .kr-why__list {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+</style>

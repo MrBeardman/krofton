@@ -1,0 +1,97 @@
+{
+  "makovskeho-po": {
+    "w": 1200,
+    "h": 900,
+    "widths": [640, 960, 1200]
+  },
+  "makovskeho-po-2": {
+    "w": 1200,
+    "h": 900,
+    "widths": [640, 960, 1200]
+  },
+  "makovskeho-pred": {
+    "w": 1200,
+    "h": 900,
+    "widths": [640, 960, 1200]
+  },
+  "zlicin": {
+    "w": 1200,
+    "h": 900,
+    "widths": [640, 960, 1200]
+  },
+  "hradec-kralove": {
+    "w": 1200,
+    "h": 900,
+    "widths": [640, 960, 1200]
+  },
+  "nad-prehradou": {
+    "w": 1000,
+    "h": 750,
+    "widths": [640, 960]
+  },
+  "radlicka": {
+    "w": 1200,
+    "h": 900,
+    "widths": [640, 960, 1200]
+  },
+  "jinocany-fasada": {
+    "w": 1200,
+    "h": 900,
+    "widths": [640, 960, 1200]
+  },
+  "zerotinova": {
+    "w": 1200,
+    "h": 900,
+    "widths": [640, 960, 1200]
+  },
+  "netrebska": {
+    "w": 1600,
+    "h": 1200,
+    "widths": [640, 960, 1200, 1600]
+  },
+  "obklady-travertin": {
+    "w": 1200,
+    "h": 674,
+    "widths": [640, 960, 1200]
+  },
+  "obklady-dlazba": {
+    "w": 1200,
+    "h": 674,
+    "widths": [640, 960, 1200]
+  },
+  "obklady-koupelna": {
+    "w": 1600,
+    "h": 2133,
+    "widths": [640, 960, 1200, 1600]
+  },
+  "obklady-dekor": {
+    "w": 1200,
+    "h": 674,
+    "widths": [640, 960, 1200]
+  },
+  "trebonice": {
+    "w": 1200,
+    "h": 900,
+    "widths": [640, 960, 1200]
+  },
+  "trebonice-terasa": {
+    "w": 1200,
+    "h": 900,
+    "widths": [640, 960, 1200]
+  },
+  "podleskova": {
+    "w": 1200,
+    "h": 900,
+    "widths": [640, 960, 1200]
+  },
+  "podleskova-2": {
+    "w": 1200,
+    "h": 900,
+    "widths": [640, 960, 1200]
+  },
+  "jinocany-novostavba": {
+    "w": 1200,
+    "h": 900,
+    "widths": [640, 960, 1200]
+  }
+}

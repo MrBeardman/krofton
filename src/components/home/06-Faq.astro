@@ -1,0 +1,103 @@
+---
+import { faq, nb } from '../../data/site';
+---
+
+<section class="kr-faq kr-light" id="otazky" aria-labelledby="kr-faq-h">
+  <div class="kr-wrap kr-faq__grid">
+    <div>
+      <h2 id="kr-faq-h" data-reveal>
+        Časté otázky
+      </h2>
+      <p class="kr-faq__sub" data-reveal style="--d:1">
+        {nb('Krátké odpovědi na to, na co se zákazníci ptají nejčastěji.')}
+      </p>
+    </div>
+    <div class="kr-faq__list" data-reveal style="--d:1">
+      {faq.map((f) => (
+        <details class="kr-faq__item">
+          <summary>
+            <h3>{nb(f.q)}</h3>
+            <span class="kr-faq__icon" aria-hidden="true" />
+          </summary>
+          <p>{nb(f.a)}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .kr-faq {
+    padding: var(--section) 0;
+  }
+  .kr-faq__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: 32px clamp(40px, 6vw, 96px);
+  }
+  .kr-faq__sub {
+    margin-top: 16px;
+    color: var(--ink-2);
+    max-width: 22em;
+  }
+  .kr-faq__item {
+    border-top: 1px solid var(--line);
+  }
+  .kr-faq__item:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+  .kr-faq__item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 0;
+    cursor: pointer;
+    list-style: none;
+  }
+  .kr-faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+  .kr-faq__item h3 {
+    font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+  }
+  .kr-faq__icon {
+    position: relative;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    background: var(--les);
+  }
+  .kr-faq__icon::before,
+  .kr-faq__icon::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 12px;
+    height: 2px;
+    margin: -1px 0 0 -6px;
+    background: var(--signal);
+    transition: transform 200ms var(--ease-out);
+  }
+  .kr-faq__icon::after {
+    transform: rotate(90deg);
+  }
+  .kr-faq__item[open] .kr-faq__icon::after {
+    transform: rotate(0deg);
+  }
+  .kr-faq__item p {
+    padding: 0 56px 22px 0;
+    color: var(--ink-2);
+    max-width: 44em;
+  }
+  @media (max-width: 899px) {
+    .kr-faq__grid {
+      grid-template-columns: 1fr;
+    }
+    .kr-faq__item p {
+      padding-right: 0;
+    }
+  }
+</style>

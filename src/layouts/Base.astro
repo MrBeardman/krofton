@@ -1,0 +1,123 @@
+---
+import '@fontsource/barlow/400.css';
+import '@fontsource/barlow/500.css';
+import '@fontsource/barlow/600.css';
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/barlow-condensed/700.css';
+import '../styles/site.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { company, services, faq } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+}
+const { title, description, path } = Astro.props;
+const site = Astro.site!;
+const canonical = new URL(path, site).href;
+const hero = new URL('/img/makovskeho-po-2-1200.webp', site).href;
+
+/** LocalBusiness (GeneralContractor) + its services, and the FAQ, as plain facts for search engines and AI answers. */
+const business = {
+  '@context': 'https://schema.org',
+  '@type': 'GeneralContractor',
+  '@id': `${site.href}#firma`,
+  name: company.name,
+  legalName: company.name,
+  description:
+    'Stavební firma z Prahy: zateplení a opravy fasád, rekonstrukce domů a bytů, novostavby, obklady a dlažby, stavební práce v interiéru a řemeslníci pro jiné stavby.',
+  url: site.href,
+  logo: new URL('/logo-krofton.png', site).href,
+  image: hero,
+  telephone: company.phone.replace(/\s/g, ''),
+  email: company.email,
+  vatID: company.dic,
+  taxID: company.ico,
+  identifier: { '@type': 'PropertyValue', propertyID: 'IČO', value: company.ico },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: company.street,
+    postalCode: company.zip.replace(/\s/g, ''),
+    addressLocality: `${company.city} 5 – ${company.district}`,
+    addressRegion: 'Praha',
+    addressCountry: 'CZ',
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: company.geo.lat, longitude: company.geo.lon },
+  hasMap: company.googleHref,
+  areaServed: [
+    { '@type': 'City', name: 'Praha' },
+    { '@type': 'AdministrativeArea', name: 'Středočeský kraj' },
+  ],
+  knowsAbout: ['zateplení fasád', 'rekonstrukce', 'novostavby', 'obklady a dlažby', 'suchá výstavba'],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Stavební práce',
+    itemListElement: services.map((s) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: s.title,
+        description: s.text,
+        audience: { '@type': 'Audience', audienceType: s.forWhom.replace(/^Pro /, '').replace(/\.$/, '') },
+        provider: { '@id': `${site.href}#firma` },
+        areaServed: 'Praha a okolí',
+      },
+    })),
+  },
+};
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+
+<!doctype html>
+<html lang="cs" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <script is:inline>
+      document.documentElement.classList.replace('no-js', 'js');
+    </script>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {/* Preview phase: noindex until the site runs on krofton.cz (docs/WEBSITE.md). */}
+    <meta name="robots" content="noindex, nofollow" />
+    <meta property="og:locale" content="cs_CZ" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={company.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={hero} />
+    <meta name="theme-color" content="#26410a" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href="/img/makovskeho-po-2-1200.webp"
+      imagesrcset="/img/makovskeho-po-2-640.webp 640w, /img/makovskeho-po-2-960.webp 960w, /img/makovskeho-po-2-1200.webp 1200w"
+      imagesizes="(min-width: 1000px) 52vw, 100vw"
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(business)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+  </head>
+  <body>
+    <a class="kr-skip" href="#obsah">
+      Přeskočit na obsah
+    </a>
+    <Header />
+    <main id="obsah">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      import '../scripts/site.ts';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,359 @@
+---
+import Icon from '../Icon.astro';
+import { company, jobTypes, nb } from '../../data/site';
+const { lat, lon } = company.geo;
+const bbox = [lon - 0.006, lat - 0.0028, lon + 0.006, lat + 0.0028].map((n) => n.toFixed(5)).join('%2C');
+const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lon}`;
+---
+
+<section class="kr-contact kr-light" id="kontakt" aria-labelledby="kr-contact-h">
+  <div class="kr-wrap kr-contact__grid">
+    <div class="kr-contact__info">
+      <h2 id="kr-contact-h" data-reveal>
+        Kontakt
+      </h2>
+      <p class="kr-contact__sub" data-reveal style="--d:1">
+        {nb('Zavolejte a zeptejte se na podmínky, nebo pošlete poptávku. Nabídku připravíme nezávazně.')}
+      </p>
+
+      <a class="kr-contact__phone" href={company.phoneHref} data-reveal style="--d:2">
+        <Icon name="phone" />
+        <span>{company.phone.replace(/ /g, ' ')}</span>
+      </a>
+
+      <dl class="kr-facts" data-reveal style="--d:3">
+        <div>
+          <dt>
+            <Icon name="mail" />
+            E-mail
+          </dt>
+          <dd>
+            <a href={`mailto:${company.email}`}>{company.email}</a>
+          </dd>
+        </div>
+        <div>
+          <dt>
+            <Icon name="pin" />
+            Sídlo a provozovna
+          </dt>
+          <dd>
+            {company.name}
+            <br />
+            {company.street}
+            <br />
+            {company.zip}
+            {company.city}&nbsp;5 – {company.district}
+          </dd>
+        </div>
+        <div>
+          <dt>
+            <Icon name="clock" />
+            Provozní doba
+          </dt>
+          <dd class="kr-facts__todo">Doplníme podle vašich údajů</dd>
+        </div>
+        <div>
+          <dt>
+            <Icon name="doc" />
+            Údaje o firmě
+          </dt>
+          <dd>
+            IČO {company.ico}
+            <br />
+            DIČ {company.dic}
+            <br />
+            {company.register}
+          </dd>
+        </div>
+      </dl>
+
+      <div class="kr-map" data-reveal style="--d:4">
+        <iframe
+          src={mapSrc}
+          title="Mapa: KROFTON s.r.o., Kroftova 3370/20, Praha 5 – Smíchov"
+          loading="lazy"
+          referrerpolicy="no-referrer"
+        ></iframe>
+      </div>
+      <p class="kr-map__links">
+        <a href={company.googleHref} target="_blank" rel="noopener">
+          Otevřít v Google Maps
+        </a>
+        <a href={company.mapsHref} target="_blank" rel="noopener">
+          Otevřít v OpenStreetMap
+        </a>
+      </p>
+    </div>
+
+    <div class="kr-form-wrap" id="poptavka" data-reveal style="--d:2">
+      <h3 class="kr-form__h">Poptávka</h3>
+      <p class="kr-form__sub">
+        {nb('Napište, co potřebujete a kde. Podle typu práce poptávku předáme tomu, kdo ji u nás řeší.')}
+      </p>
+      <form class="kr-form" action="/api/contact/" method="post" novalidate data-form>
+        <div class="kr-field">
+          <label for="f-type">Typ práce</label>
+          <select id="f-type" name="type" required>
+            <option value="" selected disabled>
+              Vyberte
+            </option>
+            {jobTypes.map((t) => (
+              <option value={t.id}>{t.label}</option>
+            ))}
+          </select>
+        </div>
+        <div class="kr-field">
+          <label for="f-name">Jméno a příjmení nebo firma</label>
+          <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="120" />
+        </div>
+        <div class="kr-field-row">
+          <div class="kr-field">
+            <label for="f-phone">Telefon</label>
+            <input id="f-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" inputmode="tel" />
+          </div>
+          <div class="kr-field">
+            <label for="f-email">E-mail</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" maxlength="200" />
+          </div>
+        </div>
+        <p class="kr-form__hint" id="f-contact-hint">
+          {nb('Vyplňte telefon nebo e-mail, ať se vám můžeme ozvat.')}
+        </p>
+        <div class="kr-field">
+          <label for="f-place">Místo stavby</label>
+          <input id="f-place" name="place" type="text" maxlength="160" placeholder="Např. Praha 5" />
+        </div>
+        <div class="kr-field">
+          <label for="f-message">Co potřebujete</label>
+          <textarea id="f-message" name="message" rows="5" required maxlength="3000"></textarea>
+        </div>
+        <div class="kr-hp" aria-hidden="true">
+          <label for="f-website">Web</label>
+          <input id="f-website" name="website_hp" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <p class="kr-form__legal">
+          {nb(
+            'Údaje použijeme jen k vyřízení poptávky. Odesláním souhlasíte s jejich zpracováním společností KROFTON s.r.o.',
+          )}
+        </p>
+        <button class="kr-btn kr-btn--green kr-form__send" type="submit">
+          Odeslat poptávku
+        </button>
+        <p class="kr-form__status" role="status" aria-live="polite" data-status></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .kr-contact {
+    background: var(--bila);
+    border-top: 1px solid var(--line);
+    padding: var(--section) 0;
+  }
+  .kr-contact__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+    gap: 48px clamp(40px, 6vw, 96px);
+    align-items: start;
+  }
+  .kr-contact__sub {
+    margin-top: 16px;
+    color: var(--ink-2);
+    max-width: 30em;
+  }
+  .kr-contact__phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 28px;
+    padding: 6px 0;
+    color: var(--les);
+    font: 700 clamp(2rem, 1.4rem + 2.2vw, 2.875rem) / 1 var(--font-cond);
+    text-decoration: none;
+  }
+  .kr-contact__phone svg {
+    width: 34px;
+    height: 34px;
+    padding: 6px;
+    border-radius: 4px;
+    background: var(--signal);
+    color: var(--les);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .kr-contact__phone:hover span {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 6px;
+    }
+  }
+  .kr-facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 32px;
+    margin: 32px 0 0;
+  }
+  .kr-facts dt {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--zelen-ink);
+    font-weight: 600;
+    font-size: 0.9375rem;
+  }
+  .kr-facts dt svg {
+    width: 18px;
+    height: 18px;
+    flex: none;
+  }
+  .kr-facts dd {
+    margin: 6px 0 0;
+    line-height: 1.5;
+  }
+  .kr-facts dd a {
+    display: inline-block;
+    padding: 2px 0;
+  }
+  .kr-facts__todo {
+    color: var(--ink-2);
+    font-style: italic;
+  }
+  .kr-map {
+    margin-top: 36px;
+    aspect-ratio: 16 / 9;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .kr-map iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .kr-map__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 24px;
+    margin-top: 10px;
+    font-size: 0.9375rem;
+  }
+  .kr-map__links a {
+    display: inline-block;
+    padding: 6px 0;
+    color: var(--zelen-ink);
+  }
+
+  .kr-form-wrap {
+    padding: clamp(24px, 3.5vw, 44px);
+    background: var(--omitka);
+    border-top: 4px solid var(--zelen);
+    scroll-margin-top: calc(var(--header-h) + 16px);
+  }
+  .kr-form__h {
+    font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
+  }
+  .kr-form__sub {
+    margin-top: 8px;
+    color: var(--ink-2);
+  }
+  .kr-form {
+    display: grid;
+    gap: 18px;
+    margin-top: 24px;
+  }
+  .kr-field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .kr-field {
+    display: grid;
+    gap: 6px;
+  }
+  .kr-field label {
+    font-weight: 600;
+    font-size: 0.9375rem;
+  }
+  .kr-field input,
+  .kr-field select,
+  .kr-field textarea {
+    width: 100%;
+    min-height: 50px;
+    padding: 12px 14px;
+    border: 1.5px solid #b9c2ad;
+    border-radius: 4px;
+    background: var(--bila);
+    color: var(--ink);
+    font: 400 1rem/1.4 var(--font);
+    transition: border-color 140ms ease;
+  }
+  .kr-field textarea {
+    resize: vertical;
+  }
+  .kr-field input:focus-visible,
+  .kr-field select:focus-visible,
+  .kr-field textarea:focus-visible {
+    outline: 3px solid rgba(76, 132, 21, 0.35);
+    outline-offset: 0;
+    border-color: var(--zelen-ink);
+  }
+  .kr-field [aria-invalid='true'] {
+    border-color: #b3261e;
+  }
+  .kr-form__hint,
+  .kr-form__legal {
+    margin-top: -6px;
+    color: var(--ink-2);
+    font-size: 0.875rem;
+  }
+  .kr-form__hint.is-error {
+    color: #b3261e;
+  }
+  .kr-form__legal {
+    margin-top: 0;
+  }
+  .kr-form__send {
+    justify-self: start;
+  }
+  .kr-form__send[disabled] {
+    opacity: 0.6;
+    cursor: progress;
+  }
+  .kr-form__status:empty {
+    display: none;
+  }
+  .kr-form__status {
+    padding: 12px 14px;
+    border-radius: 4px;
+    background: #e3f2d6;
+    color: var(--les);
+    font-weight: 500;
+  }
+  .kr-form__status.is-error {
+    background: #fbe4e2;
+    color: #8c1d16;
+  }
+  .kr-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  @media (max-width: 999px) {
+    .kr-contact__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 560px) {
+    .kr-facts,
+    .kr-field-row {
+      grid-template-columns: 1fr;
+    }
+    .kr-form__send {
+      justify-self: stretch;
+      justify-content: center;
+    }
+  }
+</style>
