@@ -1,20 +1,20 @@
 ---
-import { company } from '../data/site';
+import { company, u } from '../data/site';
 import Icon from './Icon.astro';
 
 const nav = [
-  { href: '/#sluzby', label: 'Služby' },
-  { href: '/#realizace', label: 'Realizace' },
-  { href: '/#jak-pracujeme', label: 'Jak pracujeme' },
-  { href: '/#otazky', label: 'Otázky' },
-  { href: '/#kontakt', label: 'Kontakt' },
+  { href: u('#sluzby'), label: 'Služby' },
+  { href: u('#realizace'), label: 'Realizace' },
+  { href: u('#jak-pracujeme'), label: 'Jak pracujeme' },
+  { href: u('#otazky'), label: 'Otázky' },
+  { href: u('#kontakt'), label: 'Kontakt' },
 ];
 ---
 
 <header class="kr-header" data-header>
   <div class="kr-wrap kr-header__in">
-    <a class="kr-header__logo" href="/" aria-label="KROFTON s.r.o., na úvod stránky">
-      <img src="/logo-krofton.png" width="208" height="33" alt="KROFTON s.r.o." />
+    <a class="kr-header__logo" href={u()} aria-label="KROFTON s.r.o., na úvod stránky">
+      <img src={u('logo-krofton.png')} width="208" height="33" alt="KROFTON s.r.o." />
     </a>
     <nav class="kr-header__nav" aria-label="Hlavní navigace">
       <ul>

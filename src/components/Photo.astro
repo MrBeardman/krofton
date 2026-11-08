@@ -1,6 +1,7 @@
 ---
 /** A client photo from public/img with every WebP width that exists (never upscaled, see src/data/photos.json). */
 import photos from '../data/photos.json';
+import { u } from '../data/site';
 
 interface Props {
   name: keyof typeof photos;
@@ -12,12 +13,12 @@ interface Props {
 const { name, alt, sizes, class: cls, eager = false } = Astro.props;
 const p = photos[name];
 const largest = p.widths[p.widths.length - 1];
-const srcset = p.widths.map((w) => `/img/${name}-${w}.webp ${w}w`).join(', ');
+const srcset = p.widths.map((w) => `${u(`img/${name}-${w}.webp`)} ${w}w`).join(', ');
 ---
 
 <img
   class={cls}
-  src={`/img/${name}-${largest}.webp`}
+  src={u(`img/${name}-${largest}.webp`)}
   srcset={srcset}
   sizes={sizes}
   width={p.w}

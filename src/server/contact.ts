@@ -16,7 +16,7 @@ import type { APIRoute } from 'astro';
 import { mkdir, appendFile, readdir, unlink } from 'node:fs/promises';
 import path from 'node:path';
 import nodemailer from 'nodemailer';
-import { jobTypes } from '../../data/site';
+import { jobTypes } from '../data/site';
 
 export const prerender = false;
 

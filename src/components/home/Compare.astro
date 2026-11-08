@@ -1,0 +1,255 @@
+---
+/**
+ * Before/after comparison slider (model: SDX share/02-comparison.astro). The "Po" pane is clipped with
+ * clip-path inset(0 0 0 var(--pos)); dragging uses pointer capture; a visually hidden range input keeps the
+ * keyboard and screen readers in sync (Czech aria-valuetext). On first view a short demo sweep shows that it
+ * moves (WAAPI, so it can be interrupted at any frame); skipped under prefers-reduced-motion.
+ */
+import Photo from '../Photo.astro';
+import { nb } from '../../data/site';
+---
+
+<figure class="kr-cmp-fig" data-reveal>
+  <div class="kr-cmp" data-cmp>
+    <div class="kr-cmp__pane kr-cmp__old">
+      <Photo
+        name="makovskeho-pred"
+        alt="Panelový dům v ulici Makovského před zateplením, s původní šedou fasádou"
+        sizes="(min-width: 1260px) 1200px, 100vw"
+      />
+      <span class="kr-cmp__tag">Před</span>
+    </div>
+    <div class="kr-cmp__pane kr-cmp__new" data-cmp-new>
+      <Photo
+        name="makovskeho-po"
+        alt="Tentýž panelový dům v ulici Makovského po zateplení, s barevnou fasádou"
+        sizes="(min-width: 1260px) 1200px, 100vw"
+      />
+      <span class="kr-cmp__tag kr-cmp__tag--po">Po</span>
+    </div>
+    <span class="kr-cmp__line" aria-hidden="true" data-cmp-mark></span>
+    <span class="kr-cmp__knob" aria-hidden="true" data-cmp-mark>
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.4"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M8 7 4 12l4 5M16 7l4 5-4 5"></path>
+      </svg>
+    </span>
+    <input
+      class="kr-cmp__range"
+      type="range"
+      min="0"
+      max="100"
+      value="50"
+      aria-label="Porovnání fasády před a po zateplení"
+      aria-valuetext="Napůl před, napůl po"
+    />
+  </div>
+  <figcaption>
+    <strong>Zateplení fasády, ul. Makovského, Praha.</strong>
+    {nb(' Přetáhněte posuvník a porovnejte panelový dům před zahájením prací a po dokončení zateplení.')}
+  </figcaption>
+</figure>
+
+<style is:global>
+  .kr-cmp {
+    --pos: 50%;
+    position: relative;
+    max-width: 1200px;
+    aspect-ratio: 16 / 9;
+    margin-inline: auto;
+    overflow: hidden;
+    border-radius: 4px;
+    background: var(--line);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: pan-y;
+    cursor: ew-resize;
+  }
+  .kr-cmp__pane {
+    position: absolute;
+    inset: 0;
+  }
+  .kr-cmp__pane img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    -webkit-user-drag: none;
+  }
+  .kr-cmp__new {
+    clip-path: inset(0 0 0 var(--pos));
+  }
+  .kr-cmp__tag {
+    position: absolute;
+    top: 14px;
+    padding: 6px 14px 5px;
+    border-radius: 2px;
+    background: var(--bila);
+    color: var(--ink);
+    font: 700 1.25rem/1 var(--font-cond);
+  }
+  .kr-cmp__old .kr-cmp__tag {
+    left: 14px;
+  }
+  .kr-cmp__tag--po {
+    right: 14px;
+    background: var(--signal);
+    color: var(--les);
+  }
+  /* keyboard / screen-reader control: invisible, spans the whole box (pointer input is handled by the box) */
+  .kr-cmp__range {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .kr-cmp__line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--pos);
+    width: 2px;
+    margin-left: -1px;
+    background: var(--bila);
+    box-shadow: 0 0 0 1px rgba(24, 33, 15, 0.12);
+    pointer-events: none;
+  }
+  .kr-cmp__knob {
+    position: absolute;
+    top: 50%;
+    left: var(--pos);
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    margin: -26px 0 0 -26px;
+    border-radius: 4px;
+    background: var(--signal);
+    color: var(--les);
+    box-shadow: 0 8px 22px rgba(24, 33, 15, 0.3);
+    pointer-events: none;
+    transition: scale 160ms var(--ease-out);
+  }
+  .kr-cmp__knob svg {
+    width: 26px;
+    height: 26px;
+  }
+  .kr-cmp.is-drag .kr-cmp__knob {
+    scale: 1.08;
+  }
+  .kr-cmp:focus-within .kr-cmp__knob {
+    outline: 3px solid var(--les);
+    outline-offset: 3px;
+  }
+  .kr-cmp-fig figcaption {
+    max-width: 1200px;
+    margin: 14px auto 0;
+    color: var(--ink-2);
+    font-size: 0.9875rem;
+  }
+  .kr-cmp-fig figcaption strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  @media (max-width: 759px) {
+    .kr-cmp {
+      aspect-ratio: 4 / 3;
+    }
+    .kr-cmp__knob {
+      width: 46px;
+      height: 46px;
+      margin: -23px 0 0 -23px;
+    }
+  }
+</style>
+
+<script>
+  function init(box: HTMLElement) {
+    const range = box.querySelector<HTMLInputElement>('input[type="range"]')!;
+    const pane = box.querySelector<HTMLElement>('[data-cmp-new]')!;
+    const marks = [...box.querySelectorAll<HTMLElement>('[data-cmp-mark]')];
+    let drag = false;
+    let demo: Animation[] = [];
+
+    const stopDemo = () => {
+      demo.forEach((a) => a.cancel());
+      demo = [];
+    };
+    const set = (p: number) => {
+      p = Math.max(2, Math.min(98, p));
+      box.style.setProperty('--pos', `${p}%`);
+      range.value = String(Math.round(p));
+      range.setAttribute(
+        'aria-valuetext',
+        p < 35 ? 'Převážně stav po zateplení' : p > 65 ? 'Převážně stav před zateplením' : 'Napůl před, napůl po',
+      );
+    };
+    const fromX = (x: number) => {
+      const r = box.getBoundingClientRect();
+      set(((x - r.left) / r.width) * 100);
+    };
+
+    box.addEventListener('pointerdown', (e) => {
+      if (e.button > 0) return;
+      stopDemo();
+      drag = true;
+      box.classList.add('is-drag');
+      try {
+        box.setPointerCapture(e.pointerId);
+      } catch {}
+      fromX(e.clientX);
+    });
+    box.addEventListener('pointermove', (e) => drag && fromX(e.clientX));
+    for (const t of ['pointerup', 'pointercancel', 'lostpointercapture']) {
+      box.addEventListener(t, () => {
+        drag = false;
+        box.classList.remove('is-drag');
+      });
+    }
+    range.addEventListener('input', () => {
+      stopDemo();
+      set(Number(range.value));
+    });
+
+    // one-time demo sweep 50 → 30 → 70 → 50 % when the slider comes into view
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const io = new IntersectionObserver(
+      (es) => {
+        if (!es[0].isIntersecting) return;
+        io.disconnect();
+        setTimeout(() => {
+          if (drag) return;
+          const stops = [50, 30, 70, 50];
+          const offset = [0, 0.28, 0.68, 1];
+          const opts: KeyframeAnimationOptions = { duration: 2500, easing: 'linear' };
+          const seg = 'cubic-bezier(0.77, 0, 0.175, 1)';
+          demo = [
+            pane.animate(
+              stops.map((p, i) => ({ clipPath: `inset(0 0 0 ${p}%)`, offset: offset[i], easing: seg })),
+              opts,
+            ),
+            ...marks.map((m) =>
+              m.animate(
+                stops.map((p, i) => ({ left: `${p}%`, offset: offset[i], easing: seg })),
+                opts,
+              ),
+            ),
+          ];
+          demo[0].finished.then(() => (demo = [])).catch(() => {});
+        }, 400);
+      },
+      { threshold: 0.55 },
+    );
+    io.observe(box);
+  }
+  document.querySelectorAll<HTMLElement>('[data-cmp]').forEach(init);
+</script>

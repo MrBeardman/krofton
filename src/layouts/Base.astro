@@ -7,7 +7,7 @@ import '@fontsource/barlow-condensed/700.css';
 import '../styles/site.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { company, services, faq } from '../data/site';
+import { company, services, faq, u } from '../data/site';
 
 interface Props {
   title: string;
@@ -16,20 +16,20 @@ interface Props {
 }
 const { title, description, path } = Astro.props;
 const site = Astro.site!;
-const canonical = new URL(path, site).href;
-const hero = new URL('/img/makovskeho-po-2-1200.webp', site).href;
+const canonical = new URL(u(path), site).href;
+const hero = new URL(u('img/makovskeho-po-2-1200.webp'), site).href;
 
 /** LocalBusiness (GeneralContractor) + its services, and the FAQ, as plain facts for search engines and AI answers. */
 const business = {
   '@context': 'https://schema.org',
   '@type': 'GeneralContractor',
-  '@id': `${site.href}#firma`,
+  '@id': `${new URL(u(), site).href}#firma`,
   name: company.name,
   legalName: company.name,
   description:
     'Stavební firma z Prahy: zateplení a opravy fasád, rekonstrukce domů a bytů, novostavby, obklady a dlažby, stavební práce v interiéru a řemeslníci pro jiné stavby.',
-  url: site.href,
-  logo: new URL('/logo-krofton.png', site).href,
+  url: new URL(u(), site).href,
+  logo: new URL(u('logo-krofton.png'), site).href,
   image: hero,
   telephone: company.phone.replace(/\s/g, ''),
   email: company.email,
@@ -61,7 +61,7 @@ const business = {
         name: s.title,
         description: s.text,
         audience: { '@type': 'Audience', audienceType: s.forWhom.replace(/^Pro /, '').replace(/\.$/, '') },
-        provider: { '@id': `${site.href}#firma` },
+        provider: { '@id': `${new URL(u(), site).href}#firma` },
         areaServed: 'Praha a okolí',
       },
     })),
@@ -95,13 +95,13 @@ const faqLd = {
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={hero} />
     <meta name="theme-color" content="#26410a" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={u('favicon.svg')} type="image/svg+xml" />
     <link
       rel="preload"
       as="image"
       type="image/webp"
-      href="/img/makovskeho-po-2-1200.webp"
-      imagesrcset="/img/makovskeho-po-2-640.webp 640w, /img/makovskeho-po-2-960.webp 960w, /img/makovskeho-po-2-1200.webp 1200w"
+      href={u('img/makovskeho-po-2-1200.webp')}
+      imagesrcset={[640, 960, 1200].map((w) => `${u(`img/makovskeho-po-2-${w}.webp`)} ${w}w`).join(', ')}
       imagesizes="(min-width: 1000px) 52vw, 100vw"
     />
     <script type="application/ld+json" set:html={JSON.stringify(business)} />

@@ -1,12 +1,12 @@
 ---
-import { company, services, nb } from '../data/site';
+import { company, services, nb, u } from '../data/site';
 const year = new Date().getFullYear();
 ---
 
 <footer class="kr-footer">
   <div class="kr-wrap kr-footer__grid">
     <div class="kr-footer__brand">
-      <img src="/logo-krofton.png" width="208" height="33" alt="KROFTON s.r.o." loading="lazy" />
+      <img src={u('logo-krofton.png')} width="208" height="33" alt="KROFTON s.r.o." loading="lazy" />
       <p>Stavební firma z Prahy. Fasády, rekonstrukce, novostavby a řemeslné práce.</p>
     </div>
     <div>
@@ -14,7 +14,7 @@ const year = new Date().getFullYear();
       <ul>
         {services.map((s) => (
           <li>
-            <a href={`/#${s.id}`}>{s.title}</a>
+            <a href={u(`#${s.id}`)}>{s.title}</a>
           </li>
         ))}
       </ul>
@@ -49,7 +49,7 @@ const year = new Date().getFullYear();
       © {year} {company.name}
     </p>
     <p>
-      <a href="/#poptavka">Poslat poptávku</a>
+      <a href={u('#poptavka')}>Poslat poptávku</a>
     </p>
   </div>
 </footer>

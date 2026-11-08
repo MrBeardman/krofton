@@ -5,9 +5,14 @@ Pitch demo for KROFTON s.r.o. (stavební firma, Praha 5 – Smíchov), lead from
 to sell the idea of the new site on its own. Language: Czech only.
 
 - Repo: https://github.com/MrBeardman/krofton (branch `main`)
-- **Live preview:** https://wheat-cattle-954277.hostingersite.com/ (Hostinger Cloud, order 1010081246, user
+- **Published demo: https://mrbeardman.github.io/krofton/** (GitHub Pages, workflow `.github/workflows/deploy.yml`
+  with the official `withastro/action`, build `DEPLOY_TARGET=pages npm run build`: fully static under `/krofton/`,
+  enquiry form visible but disabled with a note to call or e-mail). Demos go to Pages from now on (Honza, 2026-11-08).
+- **Earlier preview on Hostinger (left as it is):** https://wheat-cattle-954277.hostingersite.com/ (Hostinger Cloud, order 1010081246, user
   u681749339; Node.js 22, Astro, build `npm run build`, output `dist`, entry `server/entry.mjs`; Git
-  auto-deploy from `main`, so every push redeploys). Target recorded in `.hostinger/site.json`.
+  auto-deploy from `main`, so every push redeploys). Target recorded in `.hostinger/site.json`. Created before
+  the switch to Pages; not deleted or changed on purpose. The default build (no `DEPLOY_TARGET`) stays the Node
+  build it expects, with the working form; decide whether to delete it or switch its auto-deploy off in hPanel.
 - Stack: Astro 7, static page + one Node endpoint (`/api/contact`), `@astrojs/node` standalone
 - Scrape (local only, not in the repo): `C:\Data\Dev\krofton-scrape\` (HTML, `projects.json`, original photos, theme CSS, logo)
 
@@ -51,7 +56,11 @@ One page, `/` (`src/pages/index.astro`), sections in `src/components/home/`:
    (4 points) and a link to the matching project tab; each with its own animated line drawing
    (`ServiceArt.astro`): facade layers + trowel, brick slid back into a wall, crane with swinging load,
    tiles laid in sequence, paint roller, spirit level whose bubble settles.
-4. **Realizace**: before/after of the Makovského panel house (both photos are in their own gallery), then
+4. **Realizace**: a draggable before/after comparison slider of the Makovského panel house (both photos are in
+   their own gallery; `Compare.astro`, adapted from SDX `src/components/share/02-comparison.astro`, see the
+   `astro-component-library` skill: `clip-path: inset(0 0 0 var(--pos))`, pointer drag with `setPointerCapture`,
+   a one-time demo sweep 50 → 30 → 70 → 50 % on first view as WAAPI animations (skipped under reduced motion),
+   and an invisible `input type=range` over the box for the keyboard with Czech `aria-valuetext`), then
    tabs Fasády (8) / Rekonstrukce (4) / Novostavby (2) / Obklady a dlažby (4) with their project names.
 5. **Jak zakázka probíhá**: 4 steps.
 6. **Časté otázky**: 7 questions (who, where, for whom, prices, authorities, partial work, how to order).
@@ -80,8 +89,13 @@ There is deliberately **no default recipient**, so the preview never mails the c
   backgrounds (contrast); on light, green text uses `#3b6810` (AA).
 - **Services as the strongest part**, built from /cinnost/ + the homepage + their list of trades. Rows
   rather than identical cards, so each service can say who it is for and what is included.
-- **Before/after side by side, not a comparison slider:** the two Makovského photos are taken from different
-  angles (checker note C4), so a drag slider would show two misaligned buildings. Revisit with an aligned pair.
+- **Before/after as a comparison slider** (Honza, 2026-11-08), replacing the first pass's side-by-side pair. The two
+  photos are not taken from the same spot (checker note C4), so the panes don't line up exactly; an aligned
+  pair from the client would make the slider stronger.
+- **Two build targets from one repo** (`astro.config.mjs`): `DEPLOY_TARGET=pages` gives `site`
+  `https://mrbeardman.github.io`, `base` `/krofton/`, no adapter and no API route; the default keeps
+  `@astrojs/node` and injects `/api/contact` (the endpoint lives in `src/server/contact.ts`). All internal
+  links and assets go through `u()` in `src/data/site.ts`, so they work under the base.
 - **Before/after from their own gallery** instead of claims: the Makovského "before" photo is the gallery's
   unnumbered first file showing the grey panel facade; the "after" files show the finished facade.
 - **Hero photo** `makovskeho-po-2`: a finished, colourful facade of a large building fits the lead's advice
@@ -112,6 +126,8 @@ All texts are rewritten from their site; these parts are new wording or new stru
 - **Opening hours:** not on their site. The contact block shows "Doplníme podle vašich údajů"; no
   `openingHours` in JSON-LD. Fill in `07-Contact.astro` + `Base.astro` when known.
 - **Vector logo** (SVG/PDF) from the client; the PNG is soft on retina.
+- **Form on Pages:** GitHub Pages can't run the endpoint, so the form there is disabled with a note. For a working
+  form the site needs the Node build (Hostinger) when the client takes it.
 - **Mail delivery:** set SMTP + `MAIL_TO` (and optionally `MAIL_TO_<TYPE>`) in Hostinger env vars when the
   client takes the site. Until then enquiries are only stored on the server.
 - **GDPR:** the form has a one-line consent note; their `gdpr.pdf` is not linked yet (old site URL).
@@ -121,7 +137,7 @@ All texts are rewritten from their site; these parts are new wording or new stru
   the project pages (one per type, with all photos) and keep the old URLs or 301 them.
 - **Certificates:** the homepage mentions the Baumit certificate (a fact from /certifikaty/); scans are not shown.
 - **Founding year:** ARES lists the company since 2012 (lead info); not stated on the page until confirmed.
-- **Domain:** `site` is `https://www.krofton.cz`, so canonical/sitemap/OG point there. Fine while `noindex`;
+- **Domain:** the Node build's `site` is `https://www.krofton.cz` (the Pages build: the Pages address), so canonical/sitemap/OG point there. Fine while `noindex`;
   remove `noindex` and the robots Disallow when the domain moves.
 
 ## Verify
@@ -132,3 +148,8 @@ Verify loop (Agent Dash, 3 rounds max): **round 1 PASS** (0 block, 0 fix, 6 note
 locally and the notes in "Open" above). After the loop: nbsp in "Novostavby od pozemku" (note C3), checked by
 build + a re-capture with the newer probe (`brokenAfterClick` included): no machine issues at 1440 and 390.
 Project-specific checks: `docs/CHECKLIST.md`.
+
+After Honza's two changes (Pages + comparison slider), the Pages build was served locally under `/krofton/` and
+re-captured: no machine issues at 1440 and 390 (after one fix: the hidden range input had a 1×1 px hit area,
+so it now spans the box invisibly). A probe confirmed the sweep runs, is skipped under reduced motion, a drag
+follows the pointer 1:1, the arrow keys move it, and aria-valuetext updates. No checker round has seen these changes.

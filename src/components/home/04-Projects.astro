@@ -1,5 +1,6 @@
 ---
 import Photo from '../Photo.astro';
+import Compare from './Compare.astro';
 import { projectGroups, nb } from '../../data/site';
 ---
 
@@ -16,30 +17,7 @@ import { projectGroups, nb } from '../../data/site';
       </p>
     </header>
 
-    <figure class="kr-ba" data-reveal>
-      <div class="kr-ba__pair">
-        <div class="kr-ba__item">
-          <Photo
-            name="makovskeho-pred"
-            alt="Panelový dům v ulici Makovského před zateplením, s původní šedou fasádou"
-            sizes="(min-width: 760px) 46vw, 100vw"
-          />
-          <span class="kr-ba__tag">Před</span>
-        </div>
-        <div class="kr-ba__item">
-          <Photo
-            name="makovskeho-po"
-            alt="Tentýž panelový dům v ulici Makovského po zateplení, s barevnou fasádou"
-            sizes="(min-width: 760px) 46vw, 100vw"
-          />
-          <span class="kr-ba__tag kr-ba__tag--po">Po</span>
-        </div>
-      </div>
-      <figcaption>
-        <strong>Zateplení fasády, ul. Makovského, Praha.</strong>
-        {nb(' Panelový dům před zahájením prací a po dokončení zateplení s novou barevnou fasádou.')}
-      </figcaption>
-    </figure>
+    <Compare />
 
     <div class="kr-tabs" data-tabs>
       <div class="kr-tabs__list" role="tablist" aria-label="Typ realizace">
@@ -104,47 +82,6 @@ import { projectGroups, nb } from '../../data/site';
   }
   .kr-projects__head .kr-lead {
     color: var(--ink-2);
-  }
-
-  /* before / after */
-  .kr-ba__pair {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-  .kr-ba__item {
-    position: relative;
-    aspect-ratio: 4 / 3;
-    background: var(--line);
-  }
-  .kr-ba__item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .kr-ba__tag {
-    position: absolute;
-    left: 14px;
-    top: 14px;
-    padding: 6px 14px 5px;
-    background: var(--bila);
-    color: var(--ink);
-    font: 700 1.25rem/1 var(--font-cond);
-    border-radius: 2px;
-  }
-  .kr-ba__tag--po {
-    background: var(--signal);
-    color: var(--les);
-  }
-  .kr-ba figcaption {
-    margin-top: 14px;
-    color: var(--ink-2);
-    font-size: 0.9875rem;
-    max-width: 52em;
-  }
-  .kr-ba figcaption strong {
-    color: var(--ink);
-    font-weight: 600;
   }
 
   /* tabs */
@@ -241,9 +178,6 @@ import { projectGroups, nb } from '../../data/site';
   }
   @media (max-width: 759px) {
     .kr-projects__head {
-      grid-template-columns: 1fr;
-    }
-    .kr-ba__pair {
       grid-template-columns: 1fr;
     }
     .kr-cards {

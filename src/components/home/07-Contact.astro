@@ -1,6 +1,6 @@
 ---
 import Icon from '../Icon.astro';
-import { company, jobTypes, nb } from '../../data/site';
+import { company, jobTypes, nb, u, formLive } from '../../data/site';
 const { lat, lon } = company.geo;
 const bbox = [lon - 0.006, lat - 0.0028, lon + 0.006, lat + 0.0028].map((n) => n.toFixed(5)).join('%2C');
 const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lon}`;
@@ -90,56 +90,67 @@ const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&lay
       <p class="kr-form__sub">
         {nb('Napište, co potřebujete a kde. Podle typu práce poptávku předáme tomu, kdo ji u nás řeší.')}
       </p>
-      <form class="kr-form" action="/api/contact/" method="post" novalidate data-form>
-        <div class="kr-field">
-          <label for="f-type">Typ práce</label>
-          <select id="f-type" name="type" required>
-            <option value="" selected disabled>
-              Vyberte
-            </option>
-            {jobTypes.map((t) => (
-              <option value={t.id}>{t.label}</option>
-            ))}
-          </select>
-        </div>
-        <div class="kr-field">
-          <label for="f-name">Jméno a příjmení nebo firma</label>
-          <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="120" />
-        </div>
-        <div class="kr-field-row">
+      <form class="kr-form" action={u('api/contact/')} method="post" novalidate data-form>
+        {!formLive && (
+          <p class="kr-form__demo">
+            {nb('V této ukázce webu formulář zatím neodesílá. Zavolejte nám prosím na ')}
+            <a href={company.phoneHref}>{company.phone.replace(/ /g, ' ')}</a>
+            {' nebo napište na '}
+            <a href={`mailto:${company.email}`}>{company.email}</a>.
+          </p>
+        )}
+        <fieldset class="kr-form__set" disabled={!formLive}>
+          <legend class="kr-sr">Poptávkový formulář</legend>
           <div class="kr-field">
-            <label for="f-phone">Telefon</label>
-            <input id="f-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" inputmode="tel" />
+            <label for="f-type">Typ práce</label>
+            <select id="f-type" name="type" required>
+              <option value="" selected disabled>
+                Vyberte
+              </option>
+              {jobTypes.map((t) => (
+                <option value={t.id}>{t.label}</option>
+              ))}
+            </select>
           </div>
           <div class="kr-field">
-            <label for="f-email">E-mail</label>
-            <input id="f-email" name="email" type="email" autocomplete="email" maxlength="200" />
+            <label for="f-name">Jméno a příjmení nebo firma</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="120" />
           </div>
-        </div>
-        <p class="kr-form__hint" id="f-contact-hint">
-          {nb('Vyplňte telefon nebo e-mail, ať se vám můžeme ozvat.')}
-        </p>
-        <div class="kr-field">
-          <label for="f-place">Místo stavby</label>
-          <input id="f-place" name="place" type="text" maxlength="160" placeholder="Např. Praha 5" />
-        </div>
-        <div class="kr-field">
-          <label for="f-message">Co potřebujete</label>
-          <textarea id="f-message" name="message" rows="5" required maxlength="3000"></textarea>
-        </div>
-        <div class="kr-hp" aria-hidden="true">
-          <label for="f-website">Web</label>
-          <input id="f-website" name="website_hp" type="text" tabindex="-1" autocomplete="off" />
-        </div>
-        <p class="kr-form__legal">
-          {nb(
-            'Údaje použijeme jen k vyřízení poptávky. Odesláním souhlasíte s jejich zpracováním společností KROFTON s.r.o.',
-          )}
-        </p>
-        <button class="kr-btn kr-btn--green kr-form__send" type="submit">
-          Odeslat poptávku
-        </button>
-        <p class="kr-form__status" role="status" aria-live="polite" data-status></p>
+          <div class="kr-field-row">
+            <div class="kr-field">
+              <label for="f-phone">Telefon</label>
+              <input id="f-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" inputmode="tel" />
+            </div>
+            <div class="kr-field">
+              <label for="f-email">E-mail</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" maxlength="200" />
+            </div>
+          </div>
+          <p class="kr-form__hint" id="f-contact-hint">
+            {nb('Vyplňte telefon nebo e-mail, ať se vám můžeme ozvat.')}
+          </p>
+          <div class="kr-field">
+            <label for="f-place">Místo stavby</label>
+            <input id="f-place" name="place" type="text" maxlength="160" placeholder="Např. Praha 5" />
+          </div>
+          <div class="kr-field">
+            <label for="f-message">Co potřebujete</label>
+            <textarea id="f-message" name="message" rows="5" required maxlength="3000"></textarea>
+          </div>
+          <div class="kr-hp" aria-hidden="true">
+            <label for="f-website">Web</label>
+            <input id="f-website" name="website_hp" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+          <p class="kr-form__legal">
+            {nb(
+              'Údaje použijeme jen k vyřízení poptávky. Odesláním souhlasíte s jejich zpracováním společností KROFTON s.r.o.',
+            )}
+          </p>
+          <button class="kr-btn kr-btn--green kr-form__send" type="submit">
+            Odeslat poptávku
+          </button>
+          <p class="kr-form__status" role="status" aria-live="polite" data-status></p>
+        </fieldset>
       </form>
     </div>
   </div>
@@ -257,9 +268,34 @@ const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&lay
     color: var(--ink-2);
   }
   .kr-form {
+    margin-top: 24px;
+  }
+  .kr-form__set {
     display: grid;
     gap: 18px;
-    margin-top: 24px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  .kr-form__set[disabled] {
+    opacity: 0.6;
+  }
+  .kr-form__set[disabled] * {
+    cursor: not-allowed;
+  }
+  .kr-form__demo {
+    margin-bottom: 20px;
+    padding: 12px 14px;
+    border-left: 4px solid var(--zelen);
+    background: var(--bila);
+    font-size: 0.9375rem;
+  }
+  .kr-form__demo a {
+    display: inline-block;
+    padding: 4px 0;
+    color: var(--zelen-ink);
+    font-weight: 600;
   }
   .kr-field-row {
     display: grid;

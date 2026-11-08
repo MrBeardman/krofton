@@ -333,3 +333,11 @@ export const jobTypes = [
   { id: 'spoluprace', label: 'Řemeslníci pro jinou stavbu' },
   { id: 'jine', label: 'Něco jiného' },
 ] as const;
+
+/** A path inside the site, with the base (/krofton/ on GitHub Pages, / on the Node preview). */
+export function u(path = ''): string {
+  return import.meta.env.BASE_URL.replace(/\/?$/, '/') + path.replace(/^\//, '');
+}
+
+/** The enquiry form can only send where the Node server runs (not on GitHub Pages). */
+export const formLive: boolean = import.meta.env.PUBLIC_FORM_LIVE !== false;
